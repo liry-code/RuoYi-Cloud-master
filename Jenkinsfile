@@ -19,13 +19,10 @@ pipeline {
         
         stage('公共模块') {
             steps {
-                sh 'mvn -f ruoyi-common clean install'
-                
                 sh 'mvn -f ruoyi-common/ruoyi-common-swagger  clean install'
                 sh 'echo ------ swagger complete --------------'
                 sh 'mvn -f ruoyi-common/ruoyi-common-core clean install'
                 sh 'echo ------ core complete --------------'
-                sh 'mvn -f ruoyi-api clean install'
                 sh 'mvn -f ruoyi-api/ruoyi-api-system clean install'
                 sh 'echo ------ system complete --------------'
                 sh 'mvn -f ruoyi-common/ruoyi-common-redis clean install'
