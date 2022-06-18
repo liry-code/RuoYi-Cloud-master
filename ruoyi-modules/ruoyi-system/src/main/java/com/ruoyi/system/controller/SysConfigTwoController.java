@@ -42,6 +42,18 @@ public class SysConfigTwoController extends BaseController
         return getDataTable(list);
     }
 
+    /**
+     * 获取参数配置列表
+     */
+    @RequiresPermissions("system:config:list")
+    @GetMapping("/list2")
+    public TableDataInfo list2(SysConfig config)
+    {
+        startPage();
+        List<SysConfig> list = configService.selectConfigList(config);
+        return getDataTable(list);
+    }
+
     @Log(title = "参数管理", businessType = BusinessType.EXPORT)
     @RequiresPermissions("system:config:export")
     @PostMapping("/export")

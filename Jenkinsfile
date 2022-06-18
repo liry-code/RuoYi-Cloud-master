@@ -5,11 +5,11 @@ pipeline {
     }
 
     stages {
-        stage('Build') {
-            steps {
-                sh 'mvn -B -DskipTests clean package'
-            }
-        }
+//         stage('全局打包') {
+//             steps {
+//                 sh 'mvn -B -DskipTests clean package'
+//             }
+//         }
 
 //         stage('公共API模块') {
 //             steps {
@@ -17,25 +17,33 @@ pipeline {
 //             }
 //         }
         
-//         stage('公共模块') {
-//             steps {
-//                 sh 'mvn -f ruoyi-common/ruoyi-common-swagger  clean package'
-//                 sh 'mvn -f ruoyi-common/ruoyi-common-core clean package'
-//                 sh 'mvn -f ruoyi-api/ruoyi-api-system clean package'
-//                 sh 'mvn -f ruoyi-common/ruoyi-common-redis clean package'
-//                 sh 'mvn -f ruoyi-common/ruoyi-common-security clean package'
-//                 sh 'mvn -f ruoyi-common/ruoyi-common-log clean package'
-//                 sh 'mvn -f ruoyi-common/ruoyi-common-datascope clean package'
-//                 sh 'mvn -f ruoyi-common/ruoyi-common-datasource clean package'
-//             }
-//         }
+        stage('公共模块') {
+            steps {
+                sh 'mvn -f ruoyi-common/ruoyi-common-swagger  clean install'
+                sh 'echo ------ swagger complete --------------'
+                sh 'mvn -f ruoyi-common/ruoyi-common-core clean install'
+                sh 'echo ------ core complete --------------'
+                sh 'mvn -f ruoyi-api/ruoyi-api-system clean install'
+                sh 'echo ------ system complete --------------'
+                sh 'mvn -f ruoyi-common/ruoyi-common-redis clean install'
+                sh 'echo ------ redis complete --------------'
+                sh 'mvn -f ruoyi-common/ruoyi-common-security clean install'
+                sh 'echo ------ security complete --------------'
+                sh 'mvn -f ruoyi-common/ruoyi-common-log clean install'
+                sh 'echo ------ log complete --------------'
+                sh 'mvn -f ruoyi-common/ruoyi-common-datascope clean install'
+                sh 'echo ------ datascope complete --------------'
+                sh 'mvn -f ruoyi-common/ruoyi-common-datasource clean install'
+                sh 'echo ------ datasource complete --------------'
+            }
+        }
         
         
-//         stage('微服务模块') {
-//             steps {
-//                 sh 'mvn -f ${project_name} clean package'
-//             }
-//         }
+        stage('微服务模块') {
+            steps {
+                sh 'mvn -f ${project_name} clean package'
+            }
+        }
         
         stage('复制文件') {
             steps {
