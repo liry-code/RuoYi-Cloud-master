@@ -19,14 +19,14 @@ pipeline {
         
         stage('公共模块') {
             steps {
-                sh 'mvn  -pl ../ruoyi-common/ruoyi-common-swagger -am clean package'
-                sh 'mvn  -pl ../ruoyi-common/ruoyi-common-core -am clean package'
-                sh 'mvn  -pl ../ruoyi-api/ruoyi-api-system -am clean package'
-                sh 'mvn  -pl ../ruoyi-common/ruoyi-common-redis -am clean package'
-                sh 'mvn  -pl ../ruoyi-common/ruoyi-common-security -am clean package'
-                sh 'mvn  -pl ../ruoyi-common/ruoyi-common-log -am clean package'
-                sh 'mvn  -pl ../ruoyi-common/ruoyi-common-datascope -am clean package'
-                sh 'mvn  -pl ../ruoyi-common/ruoyi-common-datasource -am clean package'
+                sh 'mvn -f ../ruoyi-common/ruoyi-common-swagger  clean package'
+                sh 'mvn -f ../ruoyi-common/ruoyi-common-core clean package'
+                sh 'mvn -f ../ruoyi-api/ruoyi-api-system clean package'
+                sh 'mvn -f ../ruoyi-common/ruoyi-common-redis clean package'
+                sh 'mvn -f ../ruoyi-common/ruoyi-common-security clean package'
+                sh 'mvn -f ../ruoyi-common/ruoyi-common-log clean package'
+                sh 'mvn -f ../ruoyi-common/ruoyi-common-datascope clean package'
+                sh 'mvn -f ../ruoyi-common/ruoyi-common-datasource clean package'
             }
         }
         
