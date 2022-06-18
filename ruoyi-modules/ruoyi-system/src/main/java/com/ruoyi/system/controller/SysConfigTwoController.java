@@ -46,7 +46,7 @@ public class SysConfigTwoController extends BaseController
      * 获取参数配置列表
      */
     @RequiresPermissions("system:config:list")
-    @GetMapping("/list3")
+    @GetMapping("/list23")
     public TableDataInfo list3(SysConfig config)
     {
         startPage();
