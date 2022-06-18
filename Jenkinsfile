@@ -12,19 +12,19 @@ pipeline {
 //         }
         stage('公共模块') {
             steps {
-                sh 'mvn -f ruoyi-common clena package'
+                sh 'mvn -f ruoyi-common clean package'
             }
         }
         
         stage('公共API模块') {
             steps {
-                sh 'mvn -f ruoyi-api clena package'
+                sh 'mvn -f ruoyi-api clean package'
             }
         }
         
         stage('微服务模块') {
             steps {
-                sh 'mvn -f ${project_name} clena package'
+                sh 'mvn -f ${project_name} clean package'
             }
         }
         
