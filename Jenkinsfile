@@ -84,7 +84,7 @@ def getChangeSet(){
         echo  "${entry.author}"
         author += "${entry.author}"
 
-        def affectedFiles = ew ArrayList(entry.affectedFiles);
+        def affectedFiles = new ArrayList(entry.affectedFiles);
         for(int j= 0; j < affectedFiles.size(); j++){
             // 获取受影响的文件信息
             def affectedFile = affectedFiles[i]
