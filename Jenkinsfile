@@ -10,17 +10,19 @@ pipeline {
 //                 sh 'mvn -B -DskipTests clean package'
 //             }
 //         }
+
+        stage('公共API模块') {
+            steps {
+                sh 'mvn -f ruoyi-api clean package'
+            }
+        }
+        
         stage('公共模块') {
             steps {
                 sh 'mvn -f ruoyi-common clean package'
             }
         }
         
-        stage('公共API模块') {
-            steps {
-                sh 'mvn -f ruoyi-api clean package'
-            }
-        }
         
         stage('微服务模块') {
             steps {
