@@ -1,25 +1,42 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven:3-alpine'
-            args '-v /root/.m2:/root/.m2'
-        }
+    agent any
+    tools {
+        maven "maven3.8.5"
     }
 
     stages {
-        stage('Build') {
+//         stage('Build') {
+//             steps {
+//                 sh 'mvn -B -DskipTests clean package'
+//             }
+//         }
+        stage('公共模块') {
             steps {
-                sh 'mvn -B -DskipTests clean package'
+                sh 'mvn -f ruoyi-common clena package'
             }
         }
-        stage('Example Build') {
+        
+        stage('公共API模块') {
             steps {
-                echo 'Hello World'
+                sh 'mvn -f ruoyi-api clena package'
             }
         }
+        
+        stage('微服务模块') {
+            steps {
+                sh 'mvn -f ${project_name} clena package'
+            }
+        }
+        
+        stage('复制文件') {
+            steps {
+                sh 'echo -----waiting-------'
+            }
+        }
+        
         stage('Example Deploy') {
             when {
-                expression { changeSet() && currentBuild.changeSets != null && currentBuild.changeSets.size() > 0}
+                expression { currentBuild.changeSets != null && currentBuild.changeSets.size() > 0}
             }
             steps {
                 script {
