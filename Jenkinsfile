@@ -31,11 +31,11 @@ pipeline {
 //         }
         
         
-        stage('微服务模块') {
-            steps {
-                sh 'mvn -f ${project_name} clean package'
-            }
-        }
+//         stage('微服务模块') {
+//             steps {
+//                 sh 'mvn -f ${project_name} clean package'
+//             }
+//         }
         
         stage('复制文件') {
             steps {
