@@ -19,16 +19,16 @@ pipeline {
         
         stage('公共模块') {
             steps {
+                sh '$pwd'
                 sh 'mvn -f ruoyi-common/ruoyi-common-swagger  clean install  -Dmaven.repo.local=/home/jenkins/.m2 -U'
                 sh 'echo ------ swagger complete --------------'
                 sh 'mvn -f ruoyi-common/ruoyi-common-core clean install -Dmaven.repo.local=/home/jenkins/.m2 -U'
                 sh 'echo ------ core complete --------------'
-//                 sh 'mvn -f  ruoyi-api clean package -U'
-                
-                sh 'mvn -f ruoyi-common/ruoyi-common-redis clean install -Dmaven.repo.local=/home/jenkins/.m2 -U'
-                sh 'echo ------ redis complete --------------'
+                sh 'mvn -f  ruoyi-api clean package -U'
                 sh 'mvn -f ruoyi-api/ruoyi-api-system clean install -Dmaven.repo.local=/home/jenkins/.m2 -U'
                 sh 'echo ------ system complete --------------'
+                sh 'mvn -f ruoyi-common/ruoyi-common-redis clean install -Dmaven.repo.local=/home/jenkins/.m2 -U'
+                sh 'echo ------ redis complete --------------'
                 sh 'mvn -f ruoyi-common/ruoyi-common-security clean install -Dmaven.repo.local=/home/jenkins/.m2 -U'
                 sh 'echo ------ security complete --------------'
                 sh 'mvn -f ruoyi-common/ruoyi-common-log clean install -Dmaven.repo.local=/home/jenkins/.m2 -U'
@@ -37,7 +37,7 @@ pipeline {
                 sh 'echo ------ datascope complete --------------'
                 sh 'mvn -f ruoyi-common/ruoyi-common-datasource clean install -Dmaven.repo.local=/home/jenkins/.m2 -U'
                 sh 'echo ------ datasource complete --------------'
-                sh 'mvn -f ruoyi-common clean package -Dmaven.repo.local=/home/jenkins/.m2 -U'
+                sh 'mvn -f ruoyi-common/ruoyi-common-datasource clean install -Dmaven.repo.local=/home/jenkins/.m2 -U'
                 
 //                 sh 'mvn clean install -pl ruoyi-common/ruoyi-common-swagger -am -amd -Pdev -Dmaven.test.skip=true'
 //                 sh 'echo ------ swagger complete --------------'
