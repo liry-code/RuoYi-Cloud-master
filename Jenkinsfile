@@ -88,7 +88,7 @@ def getChangeSet(){
     def author = "hhhhh"
     def changeSet = currentBuild.changeSets
     echo "${changeSet}"
-    def affectedFileList[]
+    def affectedFileList = []
     for(int i = 0; i<changeSet.size(); i++){
         def entries = changeSet[i].items
         def entry = entries[0]
@@ -114,7 +114,7 @@ def getChangeSet(){
             echo  "${affectedFile.editType.name}"
             // 获取文件路径
             echo  "${affectedFile.path}"
-            affectedFileList[j] = ${affectedFile.path}
+            affectedFileList += "${affectedFile.path}"
             
         }
     }
