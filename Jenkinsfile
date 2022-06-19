@@ -15,6 +15,7 @@ pipeline {
             steps {
                 sh 'mvn clean install -pl ruoyi-api -am -U'
                 sh 'echo ------ ruoyi-api complete --------------'
+                
                 sh 'mvn clean install -pl ruoyi-api/ruoyi-api-system -am -U'
                 sh 'echo ------ ruoyi-api-system complete --------------'
             }
@@ -25,22 +26,27 @@ pipeline {
                
                 sh 'mvn clean install  -pl ruoyi-common -U'
                 sh 'echo ------ ruoyi-common complete --------------'
-               
-                sh 'echo ------ ruoyi-common-* complete --------------'
                 
-                sh 'echo ------ ruoyi-common-* complete --------------'
                 sh 'mvn clean install  -pl ruoyi-common/ruoyi-common-swagger -U'
+                sh 'echo ------ ruoyi-common-swagger complete --------------'
+                 
                 sh 'mvn clean install  -pl ruoyi-common/ruoyi-common-datasource -U'
-                sh 'echo ------ ruoyi-common-* complete --------------'
+                sh 'echo ------ ruoyi-common-datasource complete --------------'
+                
                 sh 'mvn clean install  -pl ruoyi-common/ruoyi-common-core -U'
+                sh 'echo ------ ruoyi-common-core complete --------------'
+                
                 sh 'mvn clean install  -pl ruoyi-common/ruoyi-common-redis -U'
+                sh 'echo ------ ruoyi-common-redis complete --------------'
+                
                 sh 'mvn clean install  -pl ruoyi-common/ruoyi-common-security -U'
-                sh 'echo ------ ruoyi-common-* complete --------------'
-                
-                
+                sh 'echo ------ ruoyi-common-security complete --------------'
                 
                 sh 'mvn clean install  -pl ruoyi-common/ruoyi-common-log -U'
+                sh 'echo ------ ruoyi-common-log complete --------------'
+                
                 sh 'mvn clean install  -pl ruoyi-common/ruoyi-common-datascope -U'
+                sh 'echo ------ ruoyi-common-datascope complete --------------'
             }
         }
         
@@ -82,6 +88,7 @@ def getChangeSet(){
     def author = "hhhhh"
     def changeSet = currentBuild.changeSets
     echo "${changeSet}"
+    def affectedFileList[]
     for(int i = 0; i<changeSet.size(); i++){
         def entries = changeSet[i].items
         def entry = entries[0]
@@ -107,8 +114,11 @@ def getChangeSet(){
             echo  "${affectedFile.editType.name}"
             // 获取文件路径
             echo  "${affectedFile.path}"
+            affectedFileList[j] = ${affectedFile.path}
+            
         }
     }
+    echo "${affectedFileList}"
 
     return author
 }
