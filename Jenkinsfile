@@ -11,18 +11,22 @@ pipeline {
 //             }
 //         }
 
-//         stage('公共API模块') {
-//             steps {
-//                 sh 'mvn -f ruoyi-api clean package'
-//             }
-//         }
+        stage('公共API模块') {
+            steps {
+                sh 'mvn clean install -pl ruoyi-api -am -U'
+                sh 'echo ------ ruoyi-api complete --------------'
+                sh 'mvn clean install -pl ruoyi-api/ruoyi-api-system -am -U'
+                sh 'echo ------ ruoyi-api-system complete --------------'
+            }
+        }
         
         stage('公共模块') {
             steps {
-                sh 'mvn clean install -pl ruoyi-api -am -U'
-                sh 'echo ------ api complete --------------'
+               
                 sh 'mvn clean install  -pl ruoyi-common -U'
-                sh 'echo ------ common complete --------------'
+                sh 'echo ------ ruoyi-common complete --------------'
+                sh 'mvn clean install  -pl ruoyi-common/ruoyi-common-log -U'
+                sh 'echo ------ ruoyi-common-* complete --------------'
             }
         }
         
