@@ -27,8 +27,9 @@ pipeline {
                 sh 'echo ------ ruoyi-common complete --------------'
                
                 sh 'echo ------ ruoyi-common-* complete --------------'
-                sh 'mvn clean install  -pl ruoyi-common/ruoyi-common-datascope -U'
+                
                 sh 'echo ------ ruoyi-common-* complete --------------'
+                sh 'mvn clean install  -pl ruoyi-common/ruoyi-common-swagger -U'
                 sh 'mvn clean install  -pl ruoyi-common/ruoyi-common-datasource -U'
                 sh 'echo ------ ruoyi-common-* complete --------------'
                 sh 'mvn clean install  -pl ruoyi-common/ruoyi-common-core -U'
@@ -37,8 +38,9 @@ pipeline {
                 sh 'echo ------ ruoyi-common-* complete --------------'
                 
                 
-                sh 'mvn clean install  -pl ruoyi-common/ruoyi-common-swagger -U'
+                
                 sh 'mvn clean install  -pl ruoyi-common/ruoyi-common-log -U'
+                sh 'mvn clean install  -pl ruoyi-common/ruoyi-common-datascope -U'
             }
         }
         
