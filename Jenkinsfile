@@ -12,7 +12,13 @@ pipeline {
 //         }
 
         stage('公共API模块') {
+            when{
+                expression {
+                    isContainModule("ruoyi-api") || isContainModule("ruoyi-common")
+                }
+            }
             steps {
+                
                 sh 'mvn clean install -pl ruoyi-api -am -U'
                 sh 'echo ------ ruoyi-api complete --------------'
                 
@@ -22,8 +28,13 @@ pipeline {
         }
         
         stage('公共模块') {
+            when{
+                expression {
+                    isContainModule("ruoyi-api") || isContainModule("ruoyi-common")
+                }
+            }
             steps {
-               
+                
                 sh 'mvn clean install  -pl ruoyi-common -U'
                 sh 'echo ------ ruoyi-common complete --------------'
                 
@@ -51,30 +62,110 @@ pipeline {
         }
         
         
-        stage('微服务模块') {
+        stage('认证模块') {
+            when {
+                expression  {
+                    isContainModule("ruoyi-auth")
+                }
+            }
             steps {
                 sh 'mvn -f ${project_name} clean package'
+                sh 'echo ------ ruoyi-auth complete --------------'
             }
         }
         
-        stage('复制文件') {
+        stage('网关模块') {
+            when {
+                expression  {
+                    isContainModule("ruoyi-gateway")
+                }
+            }
+            steps {
+                sh 'mvn -f ${project_name} clean package'
+                sh 'echo ------ ruoyi-gateway complete --------------'
+            }
+        }
+        
+        stage('文件模块') {
+            when {
+                expression  {
+                    isContainModule("ruoyi-modules/ruoyi-file")
+                }
+            }
+            steps {
+                sh 'mvn -f ${project_name} clean package'
+                sh 'echo ------ ruoyi-file complete --------------'
+            }
+        }
+        
+        stage('代码生成模块') {
+            when{
+                expression  {
+                    isContainModule("ruoyi-modules/ruoyi-gen")
+                }
+            }
+            steps {
+                sh 'mvn -f ${project_name} clean package'
+                sh 'echo ------ ruoyi-gen complete --------------'
+            }
+        }
+        
+        stage('定时任务模块') {
+            when{
+                expression  {
+                    isContainModule("ruoyi-modules/ruoyi-job")
+                }
+            }
+            steps {
+                sh 'mvn -f ${project_name} clean package'
+                sh 'echo ------ ruoyi-job complete --------------'
+            }
+        }
+        
+        stage('系统模块') {
+            when{
+                expression  {
+                    isContainModule("ruoyi-modules/ruoyi-system")
+                }
+            }
+            steps {
+                sh 'mvn -f ${project_name} clean package'
+                sh 'echo ------ ruoyi-system complete --------------'
+            }
+        }
+        
+        stage('监控模块') {
+            when{
+                expression  {
+                    isContainModule("ruoyi-modules/ruoyi-monitor")
+                }
+            }
+            steps {
+                sh 'mvn -f ${project_name} clean package'
+                sh 'echo ------ ruoyi-monitor complete --------------'
+            }
+        }
+        
+        
+        
+        stage('构建镜像') {
             steps {
                 sh 'echo -----waiting-------'
             }
         }
         
-        stage('Example Deploy') {
+        stage('镜像部署') {
             when {
                 expression { currentBuild.changeSets != null && currentBuild.changeSets.size() > 0}
             }
             steps {
-                script {
-                    def author = getChangeSet()
-                    // 使用def变量：注意一定要用双引号，单引号识别为字符串
-                    echo "${author}"
-                }
-
-                echo '${author}'
+//                 script {
+//                     def author = getChangeSet()
+//                     // 使用def变量：注意一定要用双引号，单引号识别为字符串
+//                     echo "${author}"
+//                 }
+// 
+//                 echo '${author}'
                 echo 'Deploying'
             }
         }
@@ -89,7 +180,7 @@ def getChangeSet(){
     def changeSet = currentBuild.changeSets
     echo "${changeSet}"
     def affectedFileList = []
-    for(int i = 0; i<changeSet.size(); i++){
+    for(int i = 0; i < changeSet.size(); i++){
         def entries = changeSet[i].items
         def entry = entries[0]
         // commit id
@@ -120,5 +211,31 @@ def getChangeSet(){
     }
     echo "${affectedFileList}"
 
-    return author
+    return affectedFileList
+}
+
+@NonCPS
+def boolean isContainModule(String moduleName){
+    def affectedFiles = getChangeSet()
+    for(int i = 0 ; i < affectedFiles.size(); i++){
+        def filePath = affectedFiles[i]
+        if (filePath.startsWith(moduleName)) {
+            return true
+        }
+    }
+    return false
+}
+
+
+// 测试
+@NonCPS
+def boolean isContainModuleTest(String moduleName){
+    def affectedFilePathList = ['ruoyi-common/ruoyi-common-log/src/java', 'ruoyi-modules/ruoyi-file/src/java']
+    for(int i = 0 ; i < affectedFilePathList.size(); i++){
+        def filePath = affectedFilePathList[i]
+        if (filePath.startsWith(moduleName)){
+            return true
+        }
+    }
+    return false
 }
